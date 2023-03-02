@@ -3,6 +3,7 @@
  * Don't Forget Smile
  * Thank You
  */
+require('./setting/config')
 
 require("http")
   .createServer((_, res) => res.end("Hello Owner."))
@@ -10,7 +11,6 @@ require("http")
 
 const sessionName = "whatsapp-ai";
 const donet = "https://saweria.co/rezadevv";
-const owner = ["6285742632270"];
 const {
   default: EzaConnect,
   useSingleFileAuthState,
@@ -639,7 +639,7 @@ async function startEza() {
       console.log(color("WhatsApp-Ai success connected to server", "green"));
       console.log(color("WhatsApp-Ai Version 1.4.0", "cyan"));
       console.log(color("Ketik .menu untuk menampilkan menu"));
-      client.sendMessage(owner + "@s.whatsapp.net", {
+      client.sendMessage(`${owner}@s.whatsapp.net`, {
         text: `*Hi Owner I'm Active*`,
       });
     }

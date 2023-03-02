@@ -269,7 +269,7 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
       if (!args[1]) throw `Contoh penggunaan:\n${prefix + command} 1 2\n\nmaka hasilnya adalah surah Al-Fatihah ayat 2 beserta audionya, dan ayatnya 1 aja`
       let res = await fetchJson(`https://api.zahwazein.xyz/islami/quran/${args[0]}/${args[1]}?apikey=${zenzkey}`)
       if (res.status == false) return m.reply(res.result.message)
-      let txt = `*Arab* : ${res.result.text.arab}\n*English* : ${res.result.translation.en}\n*Indonesia* : ${res.result.translation.id}\n( Q.S ${res.result.surah.name.transliteration.id} : ${res.result.number.inSurah} )`
+      let txt = `*Arab* : ${res.result.text.arab}\n\n*English* : ${res.result.translation.en}\n\n*Indonesia* : ${res.result.translation.id}\n\n( Q.S ${res.result.surah.name.transliteration.id} : ${res.result.number.inSurah} )`
       m.reply(txt)
       client.sendMessage(m.chat, {audio: { url: res.result.audio.primary }, mimetype: 'audio/mpeg'}, { quoted : m })
       }
@@ -462,13 +462,13 @@ ${cpus.map((cpu, i) => `${i + 1}. ${cpu.model.trim()} (${cpu.speed} MHZ)\n${Obje
       case 'asmaulhusna': {
           m.reply(mess.wait)
           let fetch = await fetchJson(`https://raw.githubusercontent.com/BochilTeam/database/master/religi/asmaulhusna.json`)
-          let caption = `Asmaul Husna\n\n`
+          let caption = `*Asmaul Husna*\n\n`
           for (let i of fetch) {
             caption += `⭔ No : ${i.index}\n`
             caption += `⭔ Arab : ${i.arabic}\n`
             caption += `⭔ Latin : ${i.latin}\n`
-            caption += `⭔ Arti In : ${i.translation_id}\n`
-            caption += `⭔ Arti En : ${i.translation_en}\n\n`
+            caption += `⭔ Indonesia : ${i.translation_id}\n`
+            caption += `⭔ English : ${i.translation_en}\n\n`
         }
         client.sendText(m.chat, caption, m)
       }

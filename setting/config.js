@@ -9,12 +9,12 @@ global.APIs = {
 
 // Apikey Website Api
 global.APIKeys = {
-  "https://api.zahwazein.xyz": "Your Key",
-  "https://api.lolhuman.xyz": "Your Key",
+  "https://api.zahwazein.xyz": "Your Api",
+  "https://api.lolhuman.xyz": "Your Api",
 };
 
-global.zenzkey = "Your Key";
-global.lolkey = "Your Key";
+global.zenzkey = "Your Api";
+global.lolkey = "Your Api";
 global.owner = ["6285742632270"];
 global.packname = "WhatsaApp-Ai";
 global.author = "RezaDevv";
