@@ -9,7 +9,6 @@ require("http")
   .createServer((_, res) => res.end("Hello Owner."))
   .listen(0000);
 
-const sessionName = "whatsapp-ai";
 const donet = "https://saweria.co/rezadevv";
 const {
   default: EzaConnect,
@@ -640,7 +639,7 @@ async function startEza() {
       console.log(color("WhatsApp-Ai Version 1.4.0", "cyan"));
       console.log(color("Ketik .menu untuk menampilkan menu"));
       client.sendMessage(`${owner}@s.whatsapp.net`, {
-        text: `*Hi Owner I'm Active*`,
+        text: `*Hi Owner I'm Active*\n\n*_Server IP : ${ipserver}_*\n*_Session : ${sessionName}_*`,
       });
     }
     // console.log('Connected...', update)

@@ -10,6 +10,8 @@ const fs = require("fs");
 const util = require("util");
 const chalk = require("chalk");
 // new module
+const { exec } = require("child_process")
+const moment = require('moment-timezone');
 const axios = require('axios');
 const os = require('os');
 const speed = require('performance-now');
@@ -19,6 +21,7 @@ const { Configuration, OpenAIApi } = require("openai");
 let setting = require("./api_key.json");
 
 //code by rezadevv
+let signup = JSON.parse(fs.readFileSync('./src/user.json'))
 const ban = JSON.parse(fs.readFileSync('./src/banned.json'))
 const isBanned = JSON.parse(fs.readFileSync('./src/banned.json'))
 
@@ -65,6 +68,12 @@ const fetchJson = async (url, options) => {
   }
 }
 
+const sleep = async (ms) => {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+let dt = moment(Date.now()).tz('Asia/Jakarta').locale('id').format('a')
+const ucapanWaktu = "Selamat "+dt.charAt(0).toUpperCase() + dt.slice(1)	
 const runtime = function(seconds) {
   seconds = Number(seconds);
   var d = Math.floor(seconds / (3600 * 24));
@@ -77,6 +86,7 @@ const runtime = function(seconds) {
   var sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
   return dDisplay + hDisplay + mDisplay + sDisplay;
 }
+
 
 module.exports = reza = async (client, m, chatUpdate, store) => {
   try {
@@ -137,9 +147,16 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
     const groupAdmins = m.isGroup ? await getGroupAdmins(participants) : ''
     const isBotAdmins = m.isGroup ? groupAdmins.includes(botNumber) : false
     const isAdmins = m.isGroup ? groupAdmins.includes(m.sender) : false
+    const isUser = signup.includes(sender)
 
     // Push Message To Console
     let argsLog = budy.length > 30 ? `${q.substring(0, 30)}...` : budy;
+
+    // Jika ada user
+    if (isCmd2 && !isUser) {
+      signup.push(sender)
+      fs.writeFileSync('./src/user.json', JSON.stringify(signup, null, 2))
+    }
 
     if (isCmd2 && !m.isGroup) {
       console.log(chalk.black(chalk.bgGreen("[ PESAN ]")), color(argsLog, "turquoise"), chalk.magenta("Dari"), chalk.green(pushname), chalk.yellow(`[ ${m.sender.replace("@s.whatsapp.net", "@s.whatsapp.net")} ]`));
@@ -159,7 +176,7 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
       switch (command) {
         case "help": case "menu":
           if (isBanned) return m.reply(`*You Have Been Banned*`)
-            anu = `*WhatsApp-Ai Version 1.4.0*\n\n*Hai Kak ${m.pushName} 📍*\n➤ _Nama Bot: ${packname}_\n➤ _Nama Owner: ${author}_\n➤ _Runtime: ${runtime(process.uptime())}_\n\nChange Logs:\n✔Fixed Bug\n✔Added DALL-E\n✔Added Sticker\n✔Added Gempa\n✔Added Shortlink\n✔Added Tiktoknowm\n✔Added Tiktokmp3\n✔Added Ayat Kursi\n\n*(ChatGPT)*\nMess: ${prefix}ai presiden indonesia\n\n*(DALL-E)*\nMess: ${prefix}img gambar gunung\n\n⭓ *List Menu*\n📌 ${prefix}ai presiden indonesia\n📌 ${prefix}img gambar gunung\n📌 ${prefix}tourl [reply image]\n📌 ${prefix}anime\n📌 ${prefix}tagall\n📌 ${prefix}jodohku\n📌 ${prefix}sticker [reply image/video]\n📌 ${prefix}kick [@user]\n📌 ${prefix}add [user no]\n📌 ${prefix}block [owner only]\n📌 ${prefix}unblock [owner only]\n📌 ${prefix}ban [owner only]\n📌 ${prefix}unban [owner only]\n📌 ${prefix}whoisip [public ip]\n📌 ${prefix}getip [owner only]\n📌 ${prefix}ping [owner only]\n📌 ${prefix}kompasnews\n📌 ${prefix}gempa\n📌 ${prefix}shortlink\n📌 ${prefix}tiktoknowm [url]\n📌 ${prefix}tiktokmp3 [url]\n📌 ${prefix}toaudio [text]\n📌 ${prefix}ytmp4 [url]\n📌 ${prefix}ytshorts\n📌 ${prefix}alquran\n📌 ${prefix}jadwalsholat [kota]\n📌 ${prefix}asmaulhusna\n📌 ${prefix}ayatkursi\n📌 ${prefix}owner [owner contact]\n📌 ${prefix}listonline`
+            anu = `*WhatsApp-Ai Version 1.4.0*\n\n*Hai Kak ${m.pushName} ${ucapanWaktu}📍*\n➤ _Nama Bot: ${packname}_\n➤ _Nama Owner: ${author}_\n➤ _Runtime: ${runtime(process.uptime())}_\n➤ _Nama Owner: ${author}_\n➤ _Pengguna: ${signup.length}_\n\nChange Logs:\n✔Fixed Bug\n✔Added DALL-E\n✔Added Sticker\n✔Added Gempa\n✔Added Shortlink\n✔Added Tiktoknowm\n✔Added Tiktokmp3\n✔Added Ayat Kursi\n\n*(ChatGPT)*\nMess: ${prefix}ai presiden indonesia\n\n*(DALL-E)*\nMess: ${prefix}img gambar gunung\n\n⭓ *List Menu*\n📌 ${prefix}ai presiden indonesia\n📌 ${prefix}img gambar gunung\n📌 ${prefix}tourl [reply image]\n📌 ${prefix}anime\n📌 ${prefix}tagall\n📌 ${prefix}jodohku\n📌 ${prefix}sticker [reply image/video]\n📌 ${prefix}kick [@user]\n📌 ${prefix}add [user no]\n📌 ${prefix}block [owner only]\n📌 ${prefix}unblock [owner only]\n📌 ${prefix}ban [owner only]\n📌 ${prefix}unban [owner only]\n📌 ${prefix}whoisip [public ip]\n📌 ${prefix}getip [owner only]\n📌 ${prefix}ping [owner only]\n📌 ${prefix}kompasnews\n📌 ${prefix}gempa\n📌 ${prefix}shortlink\n📌 ${prefix}tiktoknowm [url]\n📌 ${prefix}tiktokmp3 [url]\n📌 ${prefix}toaudio [text]\n📌 ${prefix}ytmp4 [url]\n📌 ${prefix}ytshorts\n📌 ${prefix}alquran\n📌 ${prefix}jadwalsholat [kota]\n📌 ${prefix}asmaulhusna\n📌 ${prefix}ayatkursi\n📌 ${prefix}owner [owner contact]\n📌 ${prefix}listonline`
             client.sendText(m.chat, anu, m)
             break;
         case "ai": case "openai":
@@ -221,8 +238,25 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
           }
         }
         break;
+        case 'getidgc' :
+        if (!m.isGroup) return m.reply(mess.group)
+        m.reply (`${m.chat}`)
+        break;
         case 'owner': case 'creator': {
           client.sendContact(m.chat, global.owner, m)
+      }
+      break;
+      case 'restart' :
+      if (!isCreator) return m.reply(mess.owner)
+      await m.reply(`_Restarting ${packname}_`)
+      try{
+        await client.sendMessage(from, {text: "*_Succes_*"})
+        await sleep(3000)
+        exec(`npm start`)
+      } catch (err) {
+        exec(`node index.js`)
+        await sleep(4000)
+        m.reply('*_Sukses_*')
       }
       break;
       case 'whoisip': {

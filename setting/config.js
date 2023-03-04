@@ -13,10 +13,18 @@ global.APIKeys = {
   "https://api.lolhuman.xyz": "Your Api",
 };
 
+let http = require('http')
+            http.get({'host': 'api.ipify.org', 'port': 80, 'path': '/'}, function(resp) {
+            resp.on('data', function(ip) {
+                (global.ipserver = ip);
+            })
+          })
+
 global.zenzkey = "Your Api";
 global.lolkey = "Your Api";
 global.owner = ["6285742632270"];
 global.packname = "WhatsaApp-Ai";
+global.sessionName = "WhatsApp-Ai"
 global.author = "RezaDevv";
 global.mess = {
   wait: "Loading...",
