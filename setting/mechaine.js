@@ -10,7 +10,7 @@ const fs = require("fs");
 const util = require("util");
 const chalk = require("chalk");
 // new module
-const { exec } = require("child_process");
+const { exec } = require("child_process")
 const moment = require('moment-timezone');
 const axios = require('axios');
 const os = require('os');
