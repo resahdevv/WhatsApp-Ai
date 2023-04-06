@@ -54,7 +54,7 @@ $ pkg install yarn
 $ yarn
 ```
 ## Thanks To
-* [`ResahDevv`](https://github.com/resahdevv)
+* [`ResahDEvv`](https://github.com/resahdevv)
 
 ```Thanks to all who have participated in the development of this script```
 

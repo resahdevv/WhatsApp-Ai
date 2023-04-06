@@ -25,7 +25,6 @@ const {
   proto,
   getContentType,
 } = require("@adiwajshing/baileys");
-const { state, saveState } = useSingleFileAuthState(`./${sessionName}.json`);
 const pino = require("pino");
 const { Boom } = require("@hapi/boom");
 const fs = require("fs");
@@ -213,6 +212,7 @@ function smsg(conn, m, store) {
 }
 
 async function startEza() {
+  const { state, saveCreds } = await useMultiFileAuthState(`./${sessionName}`)
   const { version, isLatest } = await fetchLatestBaileysVersion();
   console.log(`using WA v${version.join(".")}, isLatest: ${isLatest}`);
   console.log(
@@ -376,8 +376,29 @@ async function startEza() {
     logger: pino({ level: "silent" }),
     printQRInTerminal: true,
     browser: ["WhatsApp-Ai", "Chrome", "1.0.0"],
-    auth: state,
-  });
+    patchMessageBeforeSending: (message) => {
+      const requiresPatch = !!(
+        message.buttonsMessage
+        || message.templateMessage
+        || message.listMessage
+        );
+        if (requiresPatch) {
+          message = {
+            viewOnceMessage: {
+              message: {
+                messageContextInfo: {
+                  deviceListMetadataVersion: 2,
+                  deviceListMetadata: {},
+                },
+                ...message,
+              },
+            },
+          };
+        }
+        return message;
+      },
+      auth: state,
+    });
 
   store.bind(client.ev);
 
@@ -645,7 +666,7 @@ async function startEza() {
     // console.log('Connected...', update)
   });
 
-  client.ev.on("creds.update", saveState);
+  client.ev.on("creds.update", saveCreds);
 
   client.downloadMediaMessage = async (message) => {
     let mime = (message.msg || message).mimetype || "";
