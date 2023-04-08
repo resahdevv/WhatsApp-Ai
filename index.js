@@ -12,7 +12,7 @@ require("http")
 const donet = "https://saweria.co/rezadevv";
 const {
   default: EzaConnect,
-  useSingleFileAuthState,
+  useMultiFileAuthState,
   DisconnectReason,
   fetchLatestBaileysVersion,
   generateForwardMessageContent,
