@@ -182,7 +182,7 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
       switch (command) {
         case "help": case "menu":
           if (isBanned) return m.reply(`*You Have Been Banned*`)
-            anu = `*WhatsApp-Ai Version 1.4.0*\n\n*Hai Kak ${m.pushName} ${ucapanWaktu}📍*\n➤ _Nama Bot: ${packname}_\n➤ _Nama Owner: ${author}_\n➤ _Runtime: ${runtime(process.uptime())}_\n➤ _Pengguna: ${signup.length}_\n\nChange Logs:\n✔Fixed Bug\n✔Added DALL-E\n✔Added Sticker\n✔Added Gempa\n✔Added Shortlink\n✔Added Tiktoknowm\n✔Added Tiktokmp3\n✔Added Ayat Kursi\n\n*(ChatGPT)*\nMess: ${prefix}ai presiden indonesia\n\n*(DALL-E)*\nMess: ${prefix}img gambar gunung\n\n⭓ *List Menu*\n📌 ${prefix}ai presiden indonesia\n📌 ${prefix}img gambar gunung\n📌 ${prefix}tourl [reply image]\n📌 ${prefix}anime\n📌 ${prefix}tagall\n📌 ${prefix}jodohku\n📌 ${prefix}sticker [reply image/video]\n📌 ${prefix}kick [@user]\n📌 ${prefix}add [user no]\n📌 ${prefix}block [owner only]\n📌 ${prefix}unblock [owner only]\n📌 ${prefix}ban [owner only]\n📌 ${prefix}unban [owner only]\n📌 ${prefix}whoisip [public ip]\n📌 ${prefix}getip [owner only]\n📌 ${prefix}ping [owner only]\n📌 ${prefix}kompasnews\n📌 ${prefix}gempa\n📌 ${prefix}shortlink\n📌 ${prefix}tiktoknowm [url]\n📌 ${prefix}tiktokmp3 [url]\n📌 ${prefix}toaudio [text]\n📌 ${prefix}ytmp4 [url]\n📌 ${prefix}ytshorts\n📌 ${prefix}alquran\n📌 ${prefix}jadwalsholat [kota]\n📌 ${prefix}asmaulhusna\n📌 ${prefix}ayatkursi\n📌 ${prefix}owner [owner contact]\n📌 ${prefix}listonline`
+            anu = `*WhatsApp-Ai Version 1.4.0*\n\n*Hai Kak ${m.pushName} ${ucapanWaktu}📍*\n➤ _Nama Bot: ${packname}_\n➤ _Nama Owner: ${author}_\n➤ _Runtime: ${runtime(process.uptime())}_\n➤ _Pengguna: ${signup.length}_\n\nChange Logs:\n✔Fixed Bug\n✔Added DALL-E\n✔Added Sticker\n✔Added Gempa\n✔Added Shortlink\n✔Added Tiktoknowm\n✔Added Tiktokmp3\n✔Added Ayat Kursi\n\n*(ChatGPT)*\nMess: ${prefix}ai presiden indonesia\n\n*(DALL-E)*\nMess: ${prefix}img gambar gunung\n\n⭓ *List Menu*\n📌 ${prefix}ai presiden indonesia\n📌 ${prefix}img gambar gunung\n📌 ${prefix}tourl [reply image]\n📌 ${prefix}anime\n📌 ${prefix}tagall\n📌 ${prefix}jodohku\n📌 ${prefix}sticker [reply image/video]\n📌 ${prefix}kick [@user]\n📌 ${prefix}add [user no]\n📌 ${prefix}block [owner only]\n📌 ${prefix}unblock [owner only]\n📌 ${prefix}ban [owner only]\n📌 ${prefix}unban [owner only]\n📌 ${prefix}whoisip [public ip]\n📌 ${prefix}getip [owner only]\n📌 ${prefix}ping [owner only]\n📌 ${prefix}kompasnews\n📌 ${prefix}gempa\n📌 ${prefix}shortlink\n📌 ${prefix}tiktoknowm [url]\n📌 ${prefix}tiktokmp3 [url]\n📌 ${prefix}toaudio [text]\n📌 ${prefix}ytmp4 [url]\n📌 ${prefix}ytshorts\n📌 ${prefix}alquran\n📌 ${prefix}jadwalsholat [kota]\n📌 ${prefix}asmaulhusna\n📌 ${prefix}ayatkursi\n📌 ${prefix}group [open/close]\n📌 ${prefix}owner [owner contact]\n📌 ${prefix}listonline`
             client.sendText(m.chat, anu, m)
             break;
         case "ai": case "openai":
@@ -250,6 +250,24 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
         break;
         case 'owner': case 'creator': {
           client.sendContact(m.chat, global.owner, m)
+      }
+      break;
+      case 'group' : {
+        if (!isCreator) return m.reply(mess.owner)
+        if (!m.isGroup) return m.reply(mess.group)
+        if (!isBotAdmins) return m.reply(mess.botAdmin)
+        if (!isAdmins) return m.reply(mess.admin)
+        if (text === 'close') {
+          await client.groupSettingUpdate(m.chat, 'announcement').then ((res) => m.reply('_Successful Closing The Group_')).catch ((err) => m.reply(jsonformat(err)))
+        } else if (text === 'open') {
+          await client.groupSettingUpdate(m.chat, 'not_announcement').then ((res) => m.reply('_Successful Opening The Group_')).catch ((err) => m.reply(jsonformat(err)))
+        } else {
+          let buttons = [
+            { buttonId: prefix + 'group open', buttonText: { displayText: 'Open' }, type: 1 },
+            { buttonId: prefix + 'group close', buttonText: { displayText: 'Close' }, type: 1 },
+          ]
+          await client.sendButtonText(m.chat, buttons, 'Group Mode', packname, m)
+        }
       }
       break;
       case 'restart' :
@@ -610,41 +628,58 @@ ${cpus.map((cpu, i) => `${i + 1}. ${cpu.model.trim()} (${cpu.speed} MHZ)\n${Obje
     let msg = await client.sendMessage(m.chat, buttonMessage, { quoted: m })
     client.sendMessage(m.chat, { audio: { url: anu.result.music.play_url }, mimetype: 'audio/mpeg'}, { quoted: msg })
 }
-        break;
-          case 'ban':
-        if (!text) throw `Example : ${prefix + command} 62xxxxxxxxxxx`
-		    if (!isCreator) throw mess.owner
-		    bnnd = `${args[0].replace('@', '')}@s.whatsapp.net`
-        ban.push(bnnd)
-		    fs.writeFileSync('./src/banned.json', JSON.stringify(ban))
-		    m.reply(`${bnnd}`)
-        break;
-        case 'unban':
-        if (!text) throw `Example : ${prefix + command} 62xxxxxxxxxxx`
-		    if (!isCreator) throw mess.owner
-		    bnnd = `${args[0].replace('@', '')}@s.whatsapp.net`
-        unp = ban.indexOf(bnnd)
-        ban.splice(unp, 1)
-		    fs.writeFileSync('./src/banned.json', JSON.stringify(ban))
-		    m.reply(`${bnnd}`)
-        break;
-        case "listuser" :
-          if (!isCreator) throw mess.owner
-          teks = '*_List User :)_*\n\n'
-          for (let pengguna of signup) {
-            teks += `- ${pengguna}\n`
-          }
-          teks += `\n*_Total User : ${signup.length}_*`
-          client.sendMessage(m.chat, { text: teks.trim() }, 'extendedTextMessage', { quoted: m, contextInfo: { "mentionedJid": signup } })
-          break;
-        case 'listban': case 'lisbanned':
-          if (!isCreator) throw mess.owner
-          teks = '*List Banned*\n\n'
-          for (let medog of ban) {
-            teks += `- ${medog}\n`
-          }
-          teks += `\n*Total Banned : ${ban.length}*`
-          client.sendMessage(m.chat, { text: teks.trim() }, 'extendedTextMessage', { quoted: m, contextInfo: { "mentionedJid": ban } })
+break;
+case 'ban' : {
+  if (!text) throw `Example : ${prefix + command} 62xxxxxxxxxxx`
+  if (!isCreator) throw mess.owner
+  let bnnd = `${args[0].replace('@', '')}@s.whatsapp.net`
+  let ban_ = []
+  if (fs.existsSync('./src/banned.json')) {
+    ban_ = JSON.parse(fs.readFileSync('./src/banned.json'))
+  }
+  if (ban_.includes(bnnd)) {
+    m.reply('*_Nomor Telah Terbanned_*')
+  } else {
+    ban.push(bnnd)
+    fs.writeFileSync('./src/banned.json', JSON.stringify(ban))
+    m.reply(bnnd)
+  }
+}
+break;
+case 'unban' : {
+  if (!text) throw `Example : ${prefix + command} 62xxxxxxxxxxx`
+  if (!isCreator) throw mess.owner
+  let bnnd = `${args[0].replace('@', '')}@s.whatsapp.net`
+  let ban_ = JSON.parse(fs.readFileSync('./banned.json'))
+  let unp = ban_.indexOf(bnnd)
+  if (unp !== -1) {
+    ban.splice(unp, 1)
+    fs.writeFileSync('./src/banned.json', JSON.stringify(ban))
+    m.reply(bnnd)
+  } else {
+    m.reply('*_Nomor Tidak Ditemukan_*')
+  }
+}
+break;
+case "listuser" : {
+  if (!isCreator) throw mess.owner
+  teks = '*_List User :)_*\n\n'
+  for (let pengguna of signup) {
+    teks += `- ${pengguna}\n`
+  }
+  teks += `\n*_Total User : ${signup.length}_*`
+  client.sendMessage(m.chat, { text: teks.trim() }, 'extendedTextMessage', { quoted: m, contextInfo: { "mentionedJid": signup } })
+}
+break;
+case 'listban' : case 'lisbanned' : {
+  if (!isCreator) throw mess.owner
+  teks = '*List Banned*\n\n'
+  for (let medog of ban) {
+    teks += `- ${medog}\n`
+  }
+  teks += `\n*Total Banned : ${ban.length}*`
+  client.sendMessage(m.chat, { text: teks.trim() }, 'extendedTextMessage', { quoted: m, contextInfo: { "mentionedJid": ban } })
+}
         break;
           default: {
           if (isCmd2 && budy.toLowerCase() != undefined) {
