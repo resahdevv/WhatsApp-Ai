@@ -182,7 +182,7 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
       switch (command) {
         case "help": case "menu":
           if (isBanned) return m.reply(`*You Have Been Banned*`)
-            anu = `*WhatsApp-Ai Version 1.4.0*\n\n*Hai Kak ${m.pushName} ${ucapanWaktu}📍*\n➤ _Nama Bot: ${packname}_\n➤ _Nama Owner: ${author}_\n➤ _Runtime: ${runtime(process.uptime())}_\n➤ _Pengguna: ${signup.length}_\n\nChange Logs:\n✔Fixed Bug\n✔Added DALL-E\n✔Added Sticker\n✔Added Gempa\n✔Added Shortlink\n✔Added Tiktoknowm\n✔Added Tiktokmp3\n✔Added Ayat Kursi\n\n*(ChatGPT)*\nMess: ${prefix}ai presiden indonesia\n\n*(DALL-E)*\nMess: ${prefix}img gambar gunung\n\n⭓ *List Menu*\n📌 ${prefix}ai presiden indonesia\n📌 ${prefix}img gambar gunung\n📌 ${prefix}tourl [reply image]\n📌 ${prefix}anime\n📌 ${prefix}tagall\n📌 ${prefix}jodohku\n📌 ${prefix}sticker [reply image/video]\n📌 ${prefix}kick [@user]\n📌 ${prefix}add [user no]\n📌 ${prefix}block [owner only]\n📌 ${prefix}unblock [owner only]\n📌 ${prefix}ban [owner only]\n📌 ${prefix}unban [owner only]\n📌 ${prefix}whoisip [public ip]\n📌 ${prefix}getip [owner only]\n📌 ${prefix}ping [owner only]\n📌 ${prefix}kompasnews\n📌 ${prefix}gempa\n📌 ${prefix}shortlink\n📌 ${prefix}tiktoknowm [url]\n📌 ${prefix}tiktokmp3 [url]\n📌 ${prefix}toaudio [text]\n📌 ${prefix}ytmp4 [url]\n📌 ${prefix}ytshorts\n📌 ${prefix}alquran\n📌 ${prefix}jadwalsholat [kota]\n📌 ${prefix}asmaulhusna\n📌 ${prefix}ayatkursi\n📌 ${prefix}group [open/close]\n📌 ${prefix}owner [owner contact]\n📌 ${prefix}listonline`
+            anu = `*WhatsApp-Ai Version 1.4.0*\n\n*Hai Kak ${m.pushName} ${ucapanWaktu}📍*\n➤ _Nama Bot: ${packname}_\n➤ _Nama Owner: ${author}_\n➤ _Runtime: ${runtime(process.uptime())}_\n➤ _Pengguna: ${signup.length}_\n\nChange Logs:\n✔Fixed Bug\n✔Added DALL-E\n✔Added Sticker\n✔Added Gempa\n✔Added Shortlink\n✔Added Tiktoknowm\n✔Added Tiktokmp3\n✔Added Ayat Kursi\n\n*(ChatGPT)*\nMess: ${prefix}ai presiden indonesia\n\n*(DALL-E)*\nMess: ${prefix}img gambar gunung\n\n⭓ *List Menu*\n📌 ${prefix}ai presiden indonesia\n📌 ${prefix}img gambar gunung\n📌 ${prefix}tourl [reply image]\n📌 ${prefix}anime\n📌 ${prefix}tagall\n📌 ${prefix}jodohku\n📌 ${prefix}sticker [reply image/video]\n📌 ${prefix}kick [@user]\n📌 ${prefix}add [user no]\n📌 ${prefix}block [owner only]\n📌 ${prefix}unblock [owner only]\n📌 ${prefix}ban [owner only]\n📌 ${prefix}unban [owner only]\n📌 ${prefix}whoisip [public ip]\n📌 ${prefix}getip [owner only]\n📌 ${prefix}ping [owner only]\n📌 ${prefix}kompasnews\n📌 ${prefix}gempa\n📌 ${prefix}shortlink\n📌 ${prefix}tiktoknowm [url]\n📌 ${prefix}tiktokmp3 [url]\n📌 ${prefix}toaudio [text]\n📌 ${prefix}ytmp4 [url]\n📌 ${prefix}ytshorts\n📌 ${prefix}alquran\n📌 ${prefix}jadwalsholat [kota]\n📌 ${prefix}asmaulhusna\n📌 ${prefix}ayatkursi\n📌 ${prefix}group [open/close]\n📌 ${prefix}pushkontak [owner only]\n📌 ${prefix}owner [owner contact]\n📌 ${prefix}listonline`
             client.sendText(m.chat, anu, m)
             break;
         case "ai": case "openai":
@@ -244,6 +244,26 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
           }
         }
         break;
+        case "pushkontak" : {
+          if (!text) return m.reply(`Example ${prefix}${command} Hi Semuanya`)
+          if (!isCreator) return m.reply(mess.owner)
+          if (!m.isGroup) return m.reply(mess.group)
+          if (!isBotAdmins) return m.reply(mess.botAdmin)
+          if (!isAdmins) throw m.reply(mess.admin)
+          let get = await participants.filter(v => v.id.endsWith('.net')).map(v => v.id)
+          let count = get.length;
+          let sentCount = 0;
+          for (let i = 0; i < get.length; i++) {
+            setTimeout(function() {
+              client.sendMessage(get[i], { text: text });
+              count--;
+              sentCount++;
+              if (count === 0) {
+                m.reply(`*_Semua pesan telah dikirim!_*:\n*_Jumlah pesan terkirim:_* *_${sentCount}_*`);
+              }
+            }, i * 1000); // delay setiap pengiriman selama 1 detik
+          }
+        }
         case 'getidgc' :
         if (!m.isGroup) return m.reply(mess.group)
         m.reply (`${m.chat}`)
