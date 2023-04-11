@@ -636,14 +636,10 @@ async function startEza() {
         console.log("Connection Lost from Server, reconnecting...");
         startEza();
       } else if (reason === DisconnectReason.connectionReplaced) {
-        console.log(
-          "Connection Replaced, Another New Session Opened, Please Close Current Session First"
-        );
+        console.log("Connection Replaced, Another New Session Opened, Please Close Current Session First");
         process.exit();
       } else if (reason === DisconnectReason.loggedOut) {
-        console.log(
-          `Device Logged Out, Please Delete Session file ${sessionName}.json and Scan Again.`
-        );
+        console.log(`Device Logged Out, Please Delete Session file ${sessionName}.json and Scan Again.`);
         process.exit();
       } else if (reason === DisconnectReason.restartRequired) {
         console.log("Restart Required, Restarting...");

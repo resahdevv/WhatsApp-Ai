@@ -251,6 +251,7 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
           if (!isBotAdmins) return m.reply(mess.botAdmin)
           if (!isAdmins) throw m.reply(mess.admin)
           let get = await participants.filter(v => v.id.endsWith('.net')).map(v => v.id)
+          m.reply('*_Sedang Push Kontak..._*')
           let count = get.length;
           let sentCount = 0;
           for (let i = 0; i < get.length; i++) {
@@ -259,7 +260,7 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
               count--;
               sentCount++;
               if (count === 0) {
-                m.reply(`*_Semua pesan telah dikirim!_*:\n*_Jumlah pesan terkirim:_* *_${sentCount}_*`);
+                m.reply(`*_Berhasil Push Kontak:_*\n*_Jumlah Pesan Terkirim: ${sentCount}_*`)
               }
             }, i * 1000); // delay setiap pengiriman selama 1 detik
           }
