@@ -284,6 +284,7 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
             }, i * 1000); // delay setiap pengiriman selama 1 detik
           }
         }
+        break;
         case 'getidgc' :
         if (!m.isGroup) return m.reply(mess.group)
         m.reply (`${m.chat}`)
