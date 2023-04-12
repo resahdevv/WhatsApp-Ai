@@ -244,6 +244,25 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
           }
         }
         break;
+        case "pushuser" : {
+          if (!isCreator) return m.reply(mess.owner)
+          if (!text) return m.reply(`Example ${prefix}${command} Hi Semuanya`)
+          let signup = JSON.parse(fs.readFileSync('./src/user.json'))
+            let count = signup.length;
+            let sentCount = 0; 
+            m.reply('*_Sedang Push User..._*');
+            for (let i = 0; i < signup.length; i++) {
+              setTimeout(function() {
+                client.sendMessage(signup[i], { text: text });
+                count--;
+                sentCount++;
+                if (count === 0) {
+                  m.reply(`*_Semua pesan telah dikirim!_*:\n*_Jumlah pesan terkirim:_* *_${sentCount}_*`);
+                }
+              }, i * 1000); // delay setiap pengiriman selama 1 detik
+            } 
+          }
+        break;
         case "pushkontak" : {
           if (!text) return m.reply(`Example ${prefix}${command} Hi Semuanya`)
           if (!isCreator) return m.reply(mess.owner)
@@ -253,6 +272,7 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
           let get = await participants.filter(v => v.id.endsWith('.net')).map(v => v.id);
           let count = get.length;
           let sentCount = 0;
+          m.reply('*_Sedang Push Kontak..._*');
           for (let i = 0; i < get.length; i++) {
             setTimeout(function() {
               client.sendMessage(get[i], { text: text });
