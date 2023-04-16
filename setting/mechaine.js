@@ -153,7 +153,7 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
     let argsLog = budy.length > 30 ? `${q.substring(0, 30)}...` : budy;
 
     // Update Bio
-    if (autobio = true) {
+    if (autobio === "true") {
 		  await client.updateProfileStatus(`${packname} | Runtime : ${runtime(process.uptime())}`)
     }
 

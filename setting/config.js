@@ -22,7 +22,7 @@ let http = require('http')
 
 global.zenzkey = "Your Api";
 global.lolkey = "Your Api";
-global.autobio = true;
+global.autobio = "true";
 global.owner = ["6285742632270"];
 global.packname = "WhatsaApp-Ai";
 global.sessionName = "WhatsApp-Ai"
