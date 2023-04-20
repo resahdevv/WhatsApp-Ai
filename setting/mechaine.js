@@ -9,6 +9,7 @@ const { BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, proto, g
 const fs = require("fs");
 const util = require("util");
 const chalk = require("chalk");
+const toMs = require('ms');
 // new module
 const { exec } = require("child_process")
 const moment = require('moment-timezone');
@@ -19,6 +20,8 @@ const { sizeFormatter } = require('human-readable');
 // end
 const { Configuration, OpenAIApi } = require("openai");
 let setting = require("./api_key.json");
+
+const anonChat = JSON.parse(fs.readFileSync('./src/db_secret.json'))
 
 //code by rezadevv
 let signup = JSON.parse(fs.readFileSync('./src/user.json'))
@@ -177,12 +180,28 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
       );
     }
 
+    // Secret Message
+    const roomChat = Object.values(anonChat).find(room => [room.a, room.b].includes(sender) && room.state == 'CHATTING')
+    const roomA = Object.values(anonChat).find(room => room.a == m.sender)
+    const roomB = Object.values(anonChat).find(room => room.b == m.sender )
+    const room = Object.values(anonChat).find(room => room.state == 'WAITING' && room.b == "")
+
+    if (roomChat && !isCmd2 && !m.isGroup && roomChat.b !=="") {
+      let other = [roomChat.a, roomChat.b].find(user => user !== sender)
+      m.copyNForward(other, true)
+      }
+
+      if (room && Date.now() >= room.expired) {
+        await client.sendMessage(room.a, {text:"```Not Found```"})
+        anonChat.splice(anonChat.indexOf(room, 1)) 
+        fs.writeFileSync('./src/db_secret.json', JSON.stringify(anonChat))
+      }
 
     if (isCmd2) {
       switch (command) {
         case "help": case "menu":
           if (isBanned) return m.reply(`*You Have Been Banned*`)
-            anu = `*WhatsApp-Ai Version 1.4.0*\n\n*Hai Kak ${m.pushName} ${ucapanWaktu}📍*\n➤ _Nama Bot: ${packname}_\n➤ _Nama Owner: ${author}_\n➤ _Runtime: ${runtime(process.uptime())}_\n➤ _Pengguna: ${signup.length}_\n\nChange Logs:\n✔Fixed Bug\n✔Added DALL-E\n✔Added Sticker\n✔Added Gempa\n✔Added Shortlink\n✔Added Tiktoknowm\n✔Added Tiktokmp3\n✔Added Ayat Kursi\n\n*(ChatGPT)*\nMess: ${prefix}ai presiden indonesia\n\n*(DALL-E)*\nMess: ${prefix}img gambar gunung\n\n⭓ *List Menu*\n📌 ${prefix}ai presiden indonesia\n📌 ${prefix}img gambar gunung\n📌 ${prefix}tourl [reply image]\n📌 ${prefix}anime\n📌 ${prefix}tagall\n📌 ${prefix}jodohku\n📌 ${prefix}sticker [reply image/video]\n📌 ${prefix}kick [@user]\n📌 ${prefix}add [user no]\n📌 ${prefix}block [owner only]\n📌 ${prefix}unblock [owner only]\n📌 ${prefix}ban [owner only]\n📌 ${prefix}unban [owner only]\n📌 ${prefix}whoisip [public ip]\n📌 ${prefix}getip [owner only]\n📌 ${prefix}ping [owner only]\n📌 ${prefix}kompasnews\n📌 ${prefix}gempa\n📌 ${prefix}shortlink\n📌 ${prefix}tiktoknowm [url]\n📌 ${prefix}tiktokmp3 [url]\n📌 ${prefix}toaudio [text]\n📌 ${prefix}ytmp4 [url]\n📌 ${prefix}ytshorts\n📌 ${prefix}alquran\n📌 ${prefix}jadwalsholat [kota]\n📌 ${prefix}asmaulhusna\n📌 ${prefix}ayatkursi\n📌 ${prefix}group [open/close]\n📌 ${prefix}pushkontak [owner only]\n📌 ${prefix}pushuser [owner only]\n📌 ${prefix}owner [owner contact]\n📌 ${prefix}listonline`
+            anu = `*WhatsApp-Ai Version 1.4.0*\n\n*Hai Kak ${m.pushName} ${ucapanWaktu}📍*\n➤ _Nama Bot: ${packname}_\n➤ _Nama Owner: ${author}_\n➤ _Runtime: ${runtime(process.uptime())}_\n➤ _Pengguna: ${signup.length}_\n\nChange Logs:\n✔Fixed Bug\n✔Added DALL-E\n✔Added Sticker\n✔Added Gempa\n✔Added Shortlink\n✔Added Tiktoknowm\n✔Added Tiktokmp3\n✔Added Ayat Kursi\n\n*(ChatGPT)*\nMess: ${prefix}ai presiden indonesia\n\n*(DALL-E)*\nMess: ${prefix}img gambar gunung\n\n⭓ *List Menu*\n📌 ${prefix}ai presiden indonesia\n📌 ${prefix}img gambar gunung\n📌 ${prefix}tourl [reply image]\n📌 ${prefix}anime\n📌 ${prefix}tagall\n📌 ${prefix}ilove 6285xxxxxxxxx\n📌 ${prefix}jodohku\n📌 ${prefix}sticker [reply image/video]\n📌 ${prefix}creategroup [nama_group]\n📌 ${prefix}kick [@user]\n📌 ${prefix}add [user no]\n📌 ${prefix}block [owner only]\n📌 ${prefix}unblock [owner only]\n📌 ${prefix}ban [owner only]\n📌 ${prefix}unban [owner only]\n📌 ${prefix}whoisip [public ip]\n📌 ${prefix}getip [owner only]\n📌 ${prefix}ping [owner only]\n📌 ${prefix}kompasnewsn📌 ${prefix}secret 6285xxxxxxxx|Secret|Hi\n📌 ${prefix}gempa\n📌 ${prefix}shortlink\n📌 ${prefix}tiktoknowm [url]\n📌 ${prefix}tiktokmp3 [url]\n📌 ${prefix}toaudio [text]\n📌 ${prefix}ytmp4 [url]\n📌 ${prefix}ytshorts\n📌 ${prefix}alquran\n📌 ${prefix}jadwalsholat [kota]\n📌 ${prefix}asmaulhusna\n📌 ${prefix}ayatkursi\n📌 ${prefix}group [open/close]\n📌 ${prefix}pushkontak [owner only]\n📌 ${prefix}pushuser [owner only]\n📌 ${prefix}owner [owner contact]\n📌 ${prefix}listonline`
             client.sendText(m.chat, anu, m)
             break;
         case "ai": case "openai":
@@ -244,6 +263,71 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
           }
         }
         break;
+        case "secret" : case "confes" : {
+          if (isBanned) return m.reply(`*You Have Been Banned*`)
+          if (m.isGroup) return m.reply('Khusus Private Chat')
+          let nomor = text.split("|")[0].replace(/[^0-9]/g, '')
+          let pengirim = text.split("|")[1]
+          let pesan = text.split("|")[2]
+          let cek_nomor = await client.onWhatsApp(nomor + '@s.whatsapp.net') 
+          if (cek_nomor.length === 0) return m.reply('```Nomor Tidak Terdaftar Di WhatsApp```')
+          if (nomor === botNumber.replace("@s.whatsapp.net", "")) return m.reply('```Ini Adalah Nomor Bot```')
+          if (nomor === sender.replace("@s.whatsapp.net", "")) return m.reply('```Ini Adalah Nomor Anda```')
+          if (!nomor && !pengirim && !pesan) return m.reply(`Lengkapi Semua Dengan Format ${prefix + command} 6285xxxxxxxxx|Reyhan|Halo Anisa`)
+          let text_nya = `*----PESAN RAHASIA----*\n\n_Ada pesan rahasia buat kamu nih balas dengan sopan yah pesan ini hanya terhubung dengan anda dan pengirim pesan!_\n\n👉Dari: ${pengirim}\n💌Pesan: ${pesan}`
+          let buttons = [
+            { buttonId : `${prefix}create_room_chat ${sender.replace("@s.whatsapp.net", "")} `, buttonText: { displayText: 'Terima Pesan 😊' }, type: 1 }
+          ]
+          client.sendButtonText(nomor + '@s.whatsapp.net', buttons, text_nya, 'click button reply message', m)
+        }
+        break;
+        case "create_room_chat" : {
+          if (isBanned) return m.reply(`*You Have Been Banned*`)
+          if (m.isGroup) return m.reply('Khusus Private Chat')
+          if (!text) return m.reply('```Text Not Found```')
+          if (roomA || roomB ) return m.reply(`_Kamu sedang dalam room chat ketik ${prefix}stopsecret untuk menghapus sesi_`)
+          client.sendMessage(text + '@s.whatsapp.net', {text: 'Chat Secret Terhubung✓'})
+          let id = + new Date
+          const obj = {
+            id,
+            a: sender,
+            b: text + '@s.whatsapp.net',
+            state: "CHATTING",
+            expired: "5m"
+          }
+          anonChat.push(obj)
+          fs.writeFileSync('./src/db_secret.json', JSON.stringify(anonChat))
+          setTimeout(() => {
+            m.reply(`*_Anda Sudah Dapat Menirim Pesan Dengan Pengirim Pesan Rahasia Sebelumnya_*\n\nKetik ${prefix}stopsecret untuk mengahpus sesi ini`)
+          }, 3000)
+        }
+        break;
+        case "stopsecret" : {
+          if (isBanned) return m.reply(`*You Have Been Banned*`)
+          if (m.isGroup) return m.reply('Khusus Private Chat')
+          if(roomA && roomA.state == "CHATTING"){
+            await client.sendMessage(roomA.b, {text: '```Yah dia telah meninggalkan chat :)```'})
+            await setTimeout(() => {
+              m.reply('```Kamu telah keluar dari sesi ini```')
+              roomA.a = roomA.b
+              roomA.b = ""
+              roomA.expired = Date.now() + toMs("5m")
+              fs.writeFileSync('./src/db_secret.json', JSON.stringify(anonChat))
+            }, 1000)
+          } else if(roomA && roomA.state == "WAITING"){
+            m.reply('```Kamu telah keluar dari sesi ini```')
+            anonChat.splice(anonChat.indexOf(roomA, 1))
+            fs.writeFileSync('./src/db_secret.json', JSON.stringify(anonChat))
+          } else if(roomB && roomB.state == "CHATTING"){
+            await client.sendMessage(roomB.a,{text: `_Partnermu telah meninggalkan sesi_`})
+            m.reply("```Kamu telah keluar dari sesi dan meninggalkan nya```")
+            roomB.b =""
+            roomB.state = "WAITING"
+            roomB.expired = Date.now() + toMs("5m")
+            fs.writeFileSync('./src/db_secret.json', JSON.stringify(anonChat))
+          } else m.reply('```Kamu Tidak Berada Dalam Sesi```')
+        }
+        break;
         case "pushuser" : {
           if (!isCreator) return m.reply(mess.owner)
           if (!text) return m.reply(`Example ${prefix}${command} Hi Semuanya`)
@@ -283,6 +367,28 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
               }
             }, i * 1000); // delay setiap pengiriman selama 1 detik
           }
+        }
+        break;
+        case "ilove" : {
+          if (!text) return m.reply(`Example ${prefix}${command} 62857xxxxxxxx`)
+          let i = 1;
+          let isWaitingDisplayed = false;
+          function sendLoveMessage() {
+            if (!isWaitingDisplayed) {
+              // Menampilkan pesan "Menunggu..." hanya sekali sebelum proses pengiriman pesan dimulai
+              m.reply("```Menunggu...```");
+              isWaitingDisplayed = true;
+            }
+            client.sendMessage(text.replace(/[^0-9]/g, '') + '@s.whatsapp.net', { text: "```I Love You``` " + i + " ```%``` ❤" });
+            i++;
+            if (i <= 100) {
+              setTimeout(sendLoveMessage, 1000); // kirim pesan setiap 1 detik
+            } else {
+              // Menampilkan pesan "Selesai! Mengirim Love" setelah semua pesan cinta dikirim
+              m.reply("```Selesai! Mengirim Love```");
+            }
+          }
+          sendLoveMessage();
         }
         break;
         case 'getidgc' :
@@ -442,11 +548,18 @@ let teks = `══✪〘 *👥 Tag All* 〙✪══
       client.sendMessage(m.chat, { text: teks, mentions: participants.map(a => a.id) }, { quoted: m })
       }
       break;
-      break
-            case 'jodohku': {
-            if (isBanned) return m.reply(`*You Have Been Banned*`)
-            if (!m.isGroup) throw mess.group
-            let member = participants.map(u => u.id)
+      case "creategroup" : {
+        if (!isCreator) return m.reply (mess.owner)
+        let namagroup = text.split("|")[0] 
+        if(!namagroup) return m.reply('```Isi Nama Group```') 
+        await client.groupCreate(namagroup, [sender])
+        m.reply('_Successful Created Group_')
+      }
+      break;
+      case 'jodohku': {
+        if (isBanned) return m.reply(`*You Have Been Banned*`)
+        if (!m.isGroup) throw mess.group
+        let member = participants.map(u => u.id)
             let me = m.sender
             let jodoh = member[Math.floor(Math.random() * member.length)]
             let jawab = `👫Jodoh mu adalah
