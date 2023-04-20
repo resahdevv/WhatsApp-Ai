@@ -298,7 +298,7 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
           anonChat.push(obj)
           fs.writeFileSync('./src/db_secret.json', JSON.stringify(anonChat))
           setTimeout(() => {
-            m.reply(`*_Anda Sudah Dapat Menirim Pesan Dengan Pengirim Pesan Rahasia Sebelumnya_*\n\nKetik ${prefix}stopsecret untuk mengahpus sesi ini`)
+            m.reply(`*_Anda Sudah Dapat Mengirim Pesan Dengan Pengirim Pesan Rahasia Sebelumnya_*\n\nKetik ${prefix}stopsecret untuk mengahpus sesi ini`)
           }, 3000)
         }
         break;
