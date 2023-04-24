@@ -4,6 +4,7 @@
  * Thank You
  */
 require('./setting/config')
+require('./setting/mechaine')
 
 require("http")
   .createServer((_, res) => res.end("Hello Owner."))
@@ -442,13 +443,13 @@ async function startEza() {
           ppgroup = "https://tinyurl.com/yx93l6da";
         }
 
-        if (anu.action == "add") {
+        if (anu.action == "add" && global.isWelcome) {
           client.sendMessage(anu.id, {
             image: { url: ppuser },
             mentions: [num],
             caption: `Welcome To ${metadata.subject} @${num.split("@")[0]}`,
           });
-        } else if (anu.action == "remove") {
+        } else if (anu.action == "remove" && global.isWelcome) {
           client.sendMessage(anu.id, {
             image: { url: ppuser },
             mentions: [num],

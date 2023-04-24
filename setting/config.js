@@ -25,7 +25,7 @@ global.lolkey = "Your Api";
 global.autobio = "true";
 global.owner = ["6285742632270"];
 global.packname = "WhatsaApp-Ai";
-global.sessionName = "WhatsApp-Ai"
+global.sessionName = "WhatsApp-Ai";
 global.author = "RezaDevv";
 global.mess = {
   wait: "Loading...",
