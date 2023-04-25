@@ -203,7 +203,7 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
       switch (command) {
         case "help": case "menu":
           if (isBanned) return m.reply(`*You Have Been Banned*`)
-            anu = `*WhatsApp-Ai Version 1.4.0*\n\n*Hai Kak ${m.pushName} ${ucapanWaktu}📍*\n➤ _Nama Bot: ${packname}_\n➤ _Nama Owner: ${author}_\n➤ _Runtime: ${runtime(process.uptime())}_\n➤ _Pengguna: ${signup.length}_\n\nChange Logs:\n✔Fixed Bug\n✔Added DALL-E\n✔Added Sticker\n✔Added Gempa\n✔Added Shortlink\n✔Added Tiktoknowm\n✔Added Tiktokmp3\n✔Added Ayat Kursi\n\n*(ChatGPT)*\nMess: ${prefix}ai presiden indonesia\n\n*(DALL-E)*\nMess: ${prefix}img gambar gunung\n\n⭓ *List Menu*\n📌 ${prefix}ai presiden indonesia\n📌 ${prefix}img gambar gunung\n📌 ${prefix}tourl [reply image]\n📌 ${prefix}anime\n📌 ${prefix}tagall\n📌 ${prefix}ilove 6285xxxxxxxxx\n📌 ${prefix}jodohku\n📌 ${prefix}sticker [reply image/video]\n📌 ${prefix}creategroup [nama_group]\n📌 ${prefix}kick [@user]\n📌 ${prefix}add [user no]\n📌 ${prefix}block [owner only]\n📌 ${prefix}unblock [owner only]\n📌 ${prefix}ban [owner only]\n📌 ${prefix}unban [owner only]\n📌 ${prefix}whoisip [public ip]\n📌 ${prefix}getip [owner only]\n📌 ${prefix}ping [owner only]\n📌 ${prefix}kompasnewsn📌 ${prefix}secret 6285xxxxxxxx|Secret|Hi\n📌 ${prefix}gempa\n📌 ${prefix}shortlink\n📌 ${prefix}tiktoknowm [url]\n📌 ${prefix}tiktokmp3 [url]\n📌 ${prefix}toaudio [text]\n📌 ${prefix}ytmp4 [url]\n📌 ${prefix}ytshorts\n📌 ${prefix}alquran\n📌 ${prefix}jadwalsholat [kota]\n📌 ${prefix}asmaulhusna\n📌 ${prefix}ayatkursi\n📌 ${prefix}group [open/close]\n📌 ${prefix}pushkontak [owner only]\n📌 ${prefix}pushuser [owner only]\n📌 ${prefix}owner [owner contact]\n📌 ${prefix}listonline`
+            anu = `*WhatsApp-Ai Version 1.4.0*\n\n*Hai Kak ${m.pushName} ${ucapanWaktu}📍*\n➤ _Nama Bot: ${packname}_\n➤ _Nama Owner: ${author}_\n➤ _Runtime: ${runtime(process.uptime())}_\n➤ _Pengguna: ${signup.length}_\n\nChange Logs:\n✔Fixed Bug\n✔Added DALL-E\n✔Added Sticker\n✔Added Gempa\n✔Added Shortlink\n✔Added Tiktoknowm\n✔Added Tiktokmp3\n✔Added Ayat Kursi\n\n*(ChatGPT)*\nMess: ${prefix}ai presiden indonesia\n\n*(DALL-E)*\nMess: ${prefix}img gambar gunung\n\n⭓ *List Menu*\n📌 ${prefix}ai presiden indonesia\n📌 ${prefix}img gambar gunung\n📌 ${prefix}tourl [reply image]\n📌 ${prefix}anime\n📌 ${prefix}tagall\n📌 ${prefix}ilove 6285xxxxxxxxx\n📌 ${prefix}jodohku\n📌 ${prefix}sticker [reply image/video]\n📌 ${prefix}creategroup [nama_group]\n📌 ${prefix}kick [@user]\n📌 ${prefix}add [user no]\n📌 ${prefix}block [owner only]\n📌 ${prefix}unblock [owner only]\n📌 ${prefix}ban [owner only]\n📌 ${prefix}unban [owner only]\n📌 ${prefix}whoisip [public ip]\n📌 ${prefix}getip [owner only]\n📌 ${prefix}ping [owner only]\n📌 ${prefix}kompasnewsn📌 ${prefix}secret 6285xxxxxxxx|Secret|Hi\n📌 ${prefix}gempa\n📌 ${prefix}shortlink\n📌 ${prefix}tiktoknowm [url]\n📌 ${prefix}tiktokmp3 [url]\n📌 ${prefix}toaudio [text]\n📌 ${prefix}ytmp4 [url]\n📌 ${prefix}ytshorts\n📌 ${prefix}alquran\n📌 ${prefix}jadwalsholat [kota]\n📌 ${prefix}asmaulhusna\n📌 ${prefix}ayatkursi\n📌 ${prefix}group [open/close]\n📌 ${prefix}pushkontak [owner only]\n📌 ${prefix}pushuser [owner only]\n📌 ${prefix}pushid [owner only]\n📌 ${prefix}owner [owner contact]\n📌 ${prefix}listonline`
             client.sendText(m.chat, anu, m)
             break;
         case "ai": case "openai":
@@ -288,7 +288,7 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
           if (isBanned) return m.reply(`*You Have Been Banned*`)
           if (m.isGroup) return m.reply('Khusus Private Chat')
           if (!text) return m.reply('```Text Not Found```')
-          if (roomA || roomB) return m.reply(`_Kamu sedang dalam room chat ketik ${prefix}stopsecret untuk menghapus sesi_`)
+          if (roomChat) return m.reply(`_Kamu/Target sedang dalam room chat ketik ${prefix}stopsecret untuk menghapus sesi_`)
           client.sendMessage(text + '@s.whatsapp.net', {text: 'Chat Secret Terhubung✓'})
           let id = + new Date
           const obj = {
@@ -329,6 +329,28 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
             roomB.expired = Date.now() + toMs("5m")
             fs.writeFileSync('./src/db_secret.json', JSON.stringify(anonChat))
           } else m.reply('```Kamu Tidak Berada Dalam Sesi```')
+        }
+        break;
+        case "pushid" : {
+          if (!isCreator) return m.reply(mess.owner)
+          let idgc = text.split("|")[0]
+          let pesan = text.split("|")[1]
+          if (!idgc && !pesan) return m.reply(`Example: ${prefix + command} idgc|pesan`)
+          let metaDATA = await client.groupMetadata(idgc).catch((e) => {m.reply(e)})
+          let getDATA = await metaDATA.participants.filter(v => v.id.endsWith('.net')).map(v => v.id);
+          let count = getDATA.length;
+          let sentCount = 0;
+          m.reply('*_Sedang Push ID..._*')
+          for (let i = 0; i < getDATA.length; i++) {
+            setTimeout(function() {
+              client.sendMessage(getDATA[i], { text: pesan });
+              count--;
+              sentCount++;
+              if (count === 0) {
+                m.reply(`*_Semua pesan telah dikirim!_*:\n*_Jumlah pesan terkirim:_* *_${sentCount}_*`);
+              }
+            }, i * 6000);
+          }
         }
         break;
         case "pushuser" : {
