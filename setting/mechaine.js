@@ -281,7 +281,7 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
           ]
           client.sendButtonText(nomor + '@s.whatsapp.net', buttons, text_nya, 'click button reply message', m)
           setTimeout(() => {
-            m.reply('```Sukses Mengirim Secrer Message```')
+            m.reply('```Sukses Mengirim Secret Message```')
           }, 3000)
         }
         break;
