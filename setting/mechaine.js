@@ -5,7 +5,7 @@
 */
 
 require('./config')
-const { BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, proto, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, areJidsSameUser, getContentType } = require("@adiwajshing/baileys");
+const { BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, proto, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, makeInMemoryStore, areJidsSameUser, getContentType } = require("@adiwajshing/baileys");
 const fs = require("fs");
 const util = require("util");
 const chalk = require("chalk");
@@ -16,9 +16,9 @@ const moment = require('moment-timezone');
 const axios = require('axios');
 const os = require('os');
 const speed = require('performance-now');
+const { sizeFormatter } = require('human-readable');
 const {  getRandom } = require('../src/function');
 const request = require('request');
-const { sizeFormatter } = require('human-readable');
 // end
 const { Configuration, OpenAIApi } = require("openai");
 let setting = require("./api_key.json");
@@ -92,7 +92,6 @@ const runtime = function(seconds) {
   var sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
   return dDisplay + hDisplay + mDisplay + sDisplay;
 }
-
 
 module.exports = reza = async (client, m, chatUpdate, store) => {
   try {
@@ -509,7 +508,7 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
         }
       }
       break;
-      case 'restart' :
+      case 'restart' : {
       if (!isCreator) return m.reply(mess.owner)
       await m.reply(`_Restarting ${packname}_`)
       try{
@@ -521,6 +520,7 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
         await sleep(4000)
         m.reply('*_Sukses_*')
       }
+    }
       break;
       case 'whoisip': {
         if (isBanned) return m.reply(`*You Have Been Banned*`)

@@ -41,6 +41,10 @@ const webp = require("node-webpmux");
 const { tmpdir } = require("os");
 const Crypto = require("crypto");
 
+const sleep = async (ms) => {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 const store = makeInMemoryStore({
   logger: pino().child({ level: "silent", stream: "store" }),
 });
@@ -403,6 +407,21 @@ async function startEza() {
 
   store.bind(client.ev);
 
+  // Anti Call
+  client.ev.on('call', async (ezasarah) => {
+    console.log(ezasarah)
+    for (let i of ezasarah) {
+      if (i.isGroup == false) {
+        if (i.status == "offer") {
+          let pa7rick = await client.sendMessage(i.from, {text: `_*${client.user.name}* tidak bisa menerima panggilan ${i.isVideo ? `video` : `suara`}! Maaf @${i.from.split('@')[0]} kamu akan diblokir. Jika tidak sengaja silahkan hubungi Owner untuk dibuka !_`})
+          client.sendContact(i.from, owner, pa7rick)
+          await sleep(8000)
+          await client.updateBlockStatus(i.from, "block")
+        }
+      }
+    }
+  })
+
   client.ev.on("messages.upsert", async (chatUpdate) => {
     //console.log(JSON.stringify(chatUpdate, undefined, 2))
     try {
@@ -640,7 +659,7 @@ async function startEza() {
         console.log("Connection Replaced, Another New Session Opened, Please Close Current Session First");
         process.exit();
       } else if (reason === DisconnectReason.loggedOut) {
-        console.log(`Device Logged Out, Please Delete Session file ${sessionName}.json and Scan Again.`);
+        console.log(`Device Logged Out, Please Delete Session file ${sessionName} and Scan Again.`);
         process.exit();
       } else if (reason === DisconnectReason.restartRequired) {
         console.log("Restart Required, Restarting...");
@@ -675,7 +694,7 @@ async function startEza() {
     for await (const chunk of stream) {
       buffer = Buffer.concat([buffer, chunk]);
     }
-
+    
     /**
      *
      * @param {*} jid
