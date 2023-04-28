@@ -654,10 +654,10 @@ async function startEza() {
       }
     } else if (connection === "open") {
       console.log(color("WhatsApp-Ai success connected to server", "green"));
-      console.log(color("WhatsApp-Ai Version 1.4.0", "cyan"));
+      console.log(color("WhatsApp-Ai Version 1.5.0", "cyan"));
       console.log(color("Ketik .menu untuk menampilkan menu"));
       client.sendMessage(`${owner}@s.whatsapp.net`, {
-        text: `*Hi Owner I'm Active*\n\n*_Server IP : ${ipserver}_*\n*_Session : ${sessionName}_*`,
+        text: `╭──❒ *CONFIGURATION BOT*\n\n➥ *Hi Owner I'm Active*\n├• *_Server IP : ${ipserver}_*\n├• *_Session : ${sessionName}_*\n╰❑`,
       });
     }
     // console.log('Connected...', update)
@@ -799,12 +799,12 @@ async function startEza() {
       );
     }
     let type = mime.split("/")[0] + "Message";
-    if (mime === "application/pdf") {
+    if (mime === "application/zip") {
       return client.sendMessage(
         jid,
         {
           document: await getBuffer(url),
-          mimetype: "application/pdf",
+          mimetype: "application/zip",
           caption: caption,
           ...options,
         },

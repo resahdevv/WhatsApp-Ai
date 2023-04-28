@@ -16,6 +16,8 @@ const moment = require('moment-timezone');
 const axios = require('axios');
 const os = require('os');
 const speed = require('performance-now');
+const {  getRandom } = require('../src/function');
+const request = require('request');
 const { sizeFormatter } = require('human-readable');
 // end
 const { Configuration, OpenAIApi } = require("openai");
@@ -202,7 +204,7 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
       switch (command) {
         case "help": case "menu":
           if (isBanned) return m.reply(`*You Have Been Banned*`)
-            anu = `*WhatsApp-Ai Version 1.4.0*\n\n*Hai Kak ${m.pushName} ${ucapanWaktu}📍*\n➤ _Nama Bot: ${packname}_\n➤ _Nama Owner: ${author}_\n➤ _Runtime: ${runtime(process.uptime())}_\n➤ _Pengguna: ${signup.length}_\n\nChange Logs:\n✔Fixed Bug\n✔Added DALL-E\n✔Added Sticker\n✔Added Gempa\n✔Added Shortlink\n✔Added Tiktoknowm\n✔Added Tiktokmp3\n✔Added Ayat Kursi\n\n*(ChatGPT)*\nMess: ${prefix}ai presiden indonesia\n\n*(DALL-E)*\nMess: ${prefix}img gambar gunung\n\n⭓ *List Menu*\n📌 ${prefix}ai presiden indonesia\n📌 ${prefix}img gambar gunung\n📌 ${prefix}tourl [reply image]\n📌 ${prefix}anime\n📌 ${prefix}tagall\n📌 ${prefix}ilove 6285xxxxxxxxx\n📌 ${prefix}jodohku\n📌 ${prefix}sticker [reply image/video]\n📌 ${prefix}creategroup [nama_group]\n📌 ${prefix}kick [@user]\n📌 ${prefix}add [user no]\n📌 ${prefix}block [owner only]\n📌 ${prefix}unblock [owner only]\n📌 ${prefix}ban [owner only]\n📌 ${prefix}unban [owner only]\n📌 ${prefix}whoisip [public ip]\n📌 ${prefix}getip [owner only]\n📌 ${prefix}ping [owner only]\n📌 ${prefix}kompasnewsn\n📌 ${prefix}secret 6285xxxxxxxx|Secret|Hi\n📌 ${prefix}gempa\n📌 ${prefix}shortlink\n📌 ${prefix}tiktoknowm [url]\n📌 ${prefix}tiktokmp3 [url]\n📌 ${prefix}toaudio [text]\n📌 ${prefix}ytmp4 [url]\n📌 ${prefix}ytshorts\n📌 ${prefix}alquran\n📌 ${prefix}jadwalsholat [kota]\n📌 ${prefix}asmaulhusna\n📌 ${prefix}ayatkursi\n📌 ${prefix}group [open/close]\n📌 ${prefix}pushkontak [owner only]\n📌 ${prefix}pushuser [owner only]\n📌 ${prefix}pushid [owner only]\n📌 ${prefix}owner [owner contact]\n📌 ${prefix}listonline`
+            anu = `*WhatsApp-Ai Version 1.5.0*\n\n➥ *Bot Information*\n*Hai Kak ${m.pushName} ${ucapanWaktu}📍*\n➤ _Nama Bot: ${packname}_\n➤ _Nama Owner: ${author}_\n➤ _Runtime: ${runtime(process.uptime())}_\n➤ _Pengguna: ${signup.length}_\n\n➥ *Logs Updated*\n✔Fixed Bug\n✔Added DALL-E\n✔Added Sticker\n✔Added Gempa\n✔Added Shortlink\n✔Added Tiktoknowm\n✔Added Tiktokmp3\n✔Added Ayat Kursi\n\n*(ChatGPT)*\nMess: ${prefix}ai presiden indonesia\n\n*(DALL-E)*\nMess: ${prefix}img gambar gunung\n\n╭──❒ *All MENU BOT*\n*OPEN AI*\n├• 📌 ${prefix}ai presiden indonesia\n├• 📌 ${prefix}img gambar gunung\n\n*DOWNLOADER*\n├• 📌 ${prefix}tiktoknowm [url]\n├• 📌 ${prefix}tiktokmp3 [url]\n├• 📌 ${prefix}ytmp4 [url]\n├• 📌 ${prefix}ytshorts\n\n*INFORMATION*\n├• 📌 ${prefix}jadwalsholat [kota]\n├• 📌 ${prefix}gempa\n├• 📌 ${prefix}kompasnews\n\n*ISLAMIC SOCIAL*\n├• 📌 ${prefix}alquran\n├• 📌 ${prefix}asmaulhusna\n├• 📌 ${prefix}ayatkursi\n\n*INTERNET ENGINERING*\n├• 📌 ${prefix}gitclone UrlRepo\n├• 📌 ${prefix}whoisip [public ip]\n├• 📌 ${prefix}tourl [reply image]\n├• 📌 ${prefix}shortlink\n\n*HAVE FUN*\n├• 📌 ${prefix}anime\n├• 📌 ${prefix}ilove 6285xxxxxxxxx\n├• 📌 ${prefix}jodohku\n├• 📌 ${prefix}sticker [reply image/video]\n├• 📌 ${prefix}secret 6285xxxxxxxx|Secret|Hi\n├• 📌 ${prefix}toaudio [text]\n\n*PHOTO EDITOR*\n├• 📌 ${prefix}jadianime [reply image]\n\n*TOOLS & GROUP*\n├• 📌 ${prefix}pushkontak [owner only]\n├• 📌 ${prefix}pushuser [owner only]\n├• 📌 ${prefix}pushid [owner only]\n├• 📌 ${prefix}tagall\n├• 📌 ${prefix}creategroup [nama_group]\n├• 📌 ${prefix}kick [@user]\n├• 📌 ${prefix}add [user no]\n├• 📌 ${prefix}block [owner only]\n├• 📌 ${prefix}unblock [owner only]\n├• 📌 ${prefix}ban [owner only]\n├• 📌 ${prefix}unban [owner only]\n├• 📌 ${prefix}getip [owner only]\n├• 📌 ${prefix}ping [owner only]\n├• 📌 ${prefix}group [open/close]\n├• 📌 ${prefix}owner [owner contact]\n├• 📌 ${prefix}listonline\n└────────────>`
             client.sendText(m.chat, anu, m)
             break;
         case "ai": case "openai":
@@ -350,7 +352,7 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
               if (count === 0) {
                 m.reply(`*_Semua pesan telah dikirim!_*:\n*_Jumlah pesan terkirim:_* *_${sentCount}_*`);
               }
-            }, i * 6000);
+            }, i * 6000); // delay of 6 second
           }
         }
         break;
@@ -377,8 +379,6 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
           if (!text) return m.reply(`Example ${prefix}${command} Hi Semuanya`)
           if (!isCreator) return m.reply(mess.owner)
           if (!m.isGroup) return m.reply(mess.group)
-          if (!isBotAdmins) return m.reply(mess.botAdmin)
-          if (!isAdmins) throw m.reply(mess.admin)
           let get = await participants.filter(v => v.id.endsWith('.net')).map(v => v.id);
           let count = get.length;
           let sentCount = 0;
@@ -396,6 +396,7 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
         }
         break;
         case "ilove" : {
+          if (isBanned) return m.reply(`*You Have Been Banned*`)
           if (!text) return m.reply(`Example ${prefix}${command} 62857xxxxxxxx`)
           let i = 1;
           let isWaitingDisplayed = false;
@@ -444,9 +445,8 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
       }
       break;
       case "welcome" : {
+        if (isBanned) return m.reply(`*You Have Been Banned*`)
         if (!m.isGroup) return m.reply(mess.group)
-        if (!isAdmins) return m.reply(mess.admin)
-        if (!isBotAdmins) return m.reply(mess.botAdmin)
         if (text === 'on') {
           if (isWelcome) return m.reply('```Welcome Sudah Aktif```')
           db_welcome.push(from)
@@ -462,6 +462,43 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
             { buttonId: prefix + 'welcome off', buttonText: { displayText: 'Off' }, type: 1 },
           ]
           await client.sendButtonText(m.chat, buttons, 'Group Welcome', packname, m)
+        }
+      }
+      break;
+      case "gitclone" : {
+        if (!args[0]) return m.reply(`Example: ${prefix + command} UrlRepo`)
+        let regex = /(?:https|git)(?::\/\/|@)github\.com[\/:]([^\/:]+)\/(.+)/i
+        if (!regex.test(args[0])) return m.reply('```Link Incoret```')
+        let [, user, repo] = args[0].match(regex) || []
+        if (!repo) return m.reply('```Repo tidak ditemukan```')
+        repo = repo.replace(/.git$/, '')
+        let url = `https://api.github.com/repos/${user}/${repo}/zipball`
+        m.reply(`*_Sedang Clone Repository_*\n\n🌟 _User:_ *_${user}_*\n🌟 _Repo:_ *_${repo}_*\n\n_Loading!..._`)
+        client.sendFileUrl(m.chat, url, '_Successful Clone Repo_', m)
+      }
+      break;
+      case "jadianime" : {
+        if (isBanned) return m.reply(`*You Have Been Banned*`)
+        if (!quoted) return  m.reply(`_Reply to Supported media With Caption ${prefix + command}_`)
+        if (/image/.test(mime)) {
+          m.reply(mess.wait)
+          let download = await client.downloadAndSaveMediaMessage(quoted)
+          file_name = getRandom('jpg')
+          request({
+            url: api("zenz", `/photoeditor/${command}`, {}, "apikey"),
+            method: 'POST',
+            formData: {
+              "sampleFile": fs.createReadStream(download)
+            },
+            encoding: "binary"
+          }, async function(error, response, body) {
+            fs.unlinkSync(download)
+            fs.writeFileSync(file_name, body, "binary")
+            await client.sendMessage(m.chat, { image: fs.readFileSync(file_name), caption: 'Generate ' + command.replace("jadianime", "Jadi Anime")}, { quoted: m }).then(() => {
+            })
+          });
+        } else {
+          return m.reply(`_Reply to Supported media With Caption ${prefix + command}_`, m.from, { quoted: m })
         }
       }
       break;
@@ -487,6 +524,7 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
     }
       break;
       case 'listonline': case 'liston': {
+        if (isBanned) return m.reply(`*You Have Been Banned*`)
         let id = args && /\d+\-\d+@g.us/.test(args[0]) ? args[0] : m.chat
         let online = [...Object.keys(store.presences[id]), botNumber]
         client.sendText(m.chat, 'List Online:\n\n' + online.map(v => '⭔ @' + v.replace(/@.+/, '')).join`\n`, m, { mentions: online })
