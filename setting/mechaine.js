@@ -501,6 +501,7 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
             fs.unlinkSync(download)
             fs.writeFileSync(file_name, body, "binary")
             await client.sendMessage(m.chat, { image: fs.readFileSync(file_name), caption: 'Generate ' + command.replace("jadianime", "Jadi Anime")}, { quoted: m }).then(() => {
+              fs.unlinkSync(file_name)
             })
           });
         } else {
