@@ -897,7 +897,7 @@ case 'unban' : {
   if (!text) throw `Example : ${prefix + command} 62xxxxxxxxxxx`
   if (!isCreator) throw mess.owner
   let bnnd = `${args[0].replace('@', '')}@s.whatsapp.net`
-  let ban_ = JSON.parse(fs.readFileSync('./banned.json'))
+  let ban_ = JSON.parse(fs.readFileSync('./src/banned.json'))
   let unp = ban_.indexOf(bnnd)
   if (unp !== -1) {
     ban.splice(unp, 1)

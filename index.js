@@ -409,7 +409,6 @@ async function startEza() {
 
   // Anti Call
   client.ev.on('call', async (ezasarah) => {
-    console.log(ezasarah)
     for (let i of ezasarah) {
       if (i.isGroup == false) {
         if (i.status == "offer") {
