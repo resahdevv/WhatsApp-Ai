@@ -19,6 +19,8 @@ const speed = require('performance-now');
 const { sizeFormatter } = require('human-readable');
 const {  getRandom } = require('../src/function');
 const request = require('request');
+ 
+const { parseMention } = require('../src/function');
 // end
 const { Configuration, OpenAIApi } = require("openai");
 let setting = require("./api_key.json");
@@ -132,6 +134,7 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
     const qmsg = (quoted.msg || quoted)
     const arg = budy.trim().substring(budy.indexOf(" ") + 1);
     const arg1 = arg.trim().substring(arg.indexOf(" ") + 1);
+    
 
     const from = m.chat;
     const reply = m.reply;
@@ -153,6 +156,7 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
     const isAdmins = m.isGroup ? groupAdmins.includes(m.sender) : false
     const isUser = signup.includes(sender)
     global.isWelcome = m.isGroup ? db_welcome.includes(from) : false
+
 
     // Push Message To Console
     let argsLog = budy.length > 30 ? `${q.substring(0, 30)}...` : budy;
@@ -203,7 +207,7 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
       switch (command) {
         case "help": case "menu":
           if (isBanned) return m.reply(`*You Have Been Banned*`)
-            anu = `*WhatsApp-Ai Version 1.5.0*\n\n➥ *Bot Information*\n*Hai Kak ${m.pushName} ${ucapanWaktu}📍*\n➤ _Nama Bot: ${packname}_\n➤ _Nama Owner: ${author}_\n➤ _Runtime: ${runtime(process.uptime())}_\n➤ _Pengguna: ${signup.length}_\n\n➥ *Logs Updated*\n✔Fixed Bug\n✔Added DALL-E\n✔Added Sticker\n✔Added Gempa\n✔Added Shortlink\n✔Added Tiktoknowm\n✔Added Tiktokmp3\n✔Added Ayat Kursi\n\n*(ChatGPT)*\nMess: ${prefix}ai presiden indonesia\n\n*(DALL-E)*\nMess: ${prefix}img gambar gunung\n\n╭──❒ *All MENU BOT*\n*OPEN AI*\n├• 📌 ${prefix}ai presiden indonesia\n├• 📌 ${prefix}img gambar gunung\n\n*DOWNLOADER*\n├• 📌 ${prefix}tiktoknowm [url]\n├• 📌 ${prefix}tiktokmp3 [url]\n├• 📌 ${prefix}ytmp4 [url]\n├• 📌 ${prefix}ytshorts\n\n*INFORMATION*\n├• 📌 ${prefix}jadwalsholat [kota]\n├• 📌 ${prefix}gempa\n├• 📌 ${prefix}kompasnews\n\n*ISLAMIC SOCIAL*\n├• 📌 ${prefix}alquran\n├• 📌 ${prefix}asmaulhusna\n├• 📌 ${prefix}ayatkursi\n\n*INTERNET ENGINERING*\n├• 📌 ${prefix}gitclone UrlRepo\n├• 📌 ${prefix}whoisip [public ip]\n├• 📌 ${prefix}tourl [reply image]\n├• 📌 ${prefix}shortlink\n\n*HAVE FUN*\n├• 📌 ${prefix}anime\n├• 📌 ${prefix}ilove 6285xxxxxxxxx\n├• 📌 ${prefix}jodohku\n├• 📌 ${prefix}sticker [reply image/video]\n├• 📌 ${prefix}secret 6285xxxxxxxx|Secret|Hi\n├• 📌 ${prefix}toaudio [text]\n\n*PHOTO EDITOR*\n├• 📌 ${prefix}jadianime [reply image]\n\n*TOOLS & GROUP*\n├• 📌 ${prefix}pushkontak [owner only]\n├• 📌 ${prefix}pushuser [owner only]\n├• 📌 ${prefix}pushid [owner only]\n├• 📌 ${prefix}tagall\n├• 📌 ${prefix}hidetag [text]\n├• 📌 ${prefix}creategroup [nama_group]\n├• 📌 ${prefix}kick [@user]\n├• 📌 ${prefix}add [user no]\n├• 📌 ${prefix}block [owner only]\n├• 📌 ${prefix}unblock [owner only]\n├• 📌 ${prefix}ban [owner only]\n├• 📌 ${prefix}unban [owner only]\n├• 📌 ${prefix}getip [owner only]\n├• 📌 ${prefix}ping [owner only]\n├• 📌 ${prefix}group [open/close]\n├• 📌 ${prefix}owner [owner contact]\n├• 📌 ${prefix}listonline\n└────────────>`
+            anu = `*WhatsApp-Ai Version 1.5.0*\n\n➥ *Bot Information*\n*Hai Kak ${m.pushName} ${ucapanWaktu}📍*\n➤ _Nama Bot: ${packname}_\n➤ _Nama Owner: ${author}_\n➤ _Runtime: ${runtime(process.uptime())}_\n➤ _Pengguna: ${signup.length}_\n\n➥ *Logs Updated*\n✔Fixed Bug\n✔Added DALL-E\n✔Added Sticker\n✔Added Gempa\n✔Added Shortlink\n✔Added Tiktoknowm\n✔Added Tiktokmp3\n✔Added Ayat Kursi\n\n*(ChatGPT)*\nMess: ${prefix}ai presiden indonesia\n\n*(DALL-E)*\nMess: ${prefix}img gambar gunung\n\n╭──❒ *All MENU BOT*\n*OPEN AI*\n├• 📌 ${prefix}ai presiden indonesia\n├• 📌 ${prefix}img gambar gunung\n\n*DOWNLOADER*\n├• 📌 ${prefix}tiktoknowm [url]\n├• 📌 ${prefix}tiktokmp3 [url]\n├• 📌 ${prefix}ytmp4 [url]\n├• 📌 ${prefix}ytshorts\n\n*INFORMATION*\n├• 📌 ${prefix}jadwalsholat [kota]\n├• 📌 ${prefix}gempa\n├• 📌 ${prefix}kompasnews\n\n*ISLAMIC SOCIAL*\n├• 📌 ${prefix}alquran\n├• 📌 ${prefix}asmaulhusna\n├• 📌 ${prefix}ayatkursi\n\n*INTERNET ENGINERING*\n├• 📌 ${prefix}inspect [link group]\n├• 📌 ${prefix}getpp [no tujuan]\n├• 📌 ${prefix}gitclone UrlRepo\n├• 📌 ${prefix}whoisip [public ip]\n├• 📌 ${prefix}tourl [reply image]\n├• 📌 ${prefix}shortlink\n\n*HAVE FUN*\n├• 📌 ${prefix}anime\n├• 📌 ${prefix}ilove 6285xxxxxxxxx\n├• 📌 ${prefix}jodohku\n├• 📌 ${prefix}sticker [reply image/video]\n├• 📌 ${prefix}secret 6285xxxxxxxx|Secret|Hi\n├• 📌 ${prefix}toaudio [text]\n\n*PHOTO EDITOR*\n├• 📌 ${prefix}jadianime [reply image]\n\n*TOOLS & GROUP*\n├• 📌 ${prefix}pushkontak [owner only]\n├• 📌 ${prefix}pushuser [owner only]\n├• 📌 ${prefix}pushid [owner only]\n├• 📌 ${prefix}tagall\n├• 📌 ${prefix}hidetag [text]\n├• 📌 ${prefix}creategroup [nama_group]\n├• 📌 ${prefix}kick [@user]\n├• 📌 ${prefix}add [user no]\n├• 📌 ${prefix}block [owner only]\n├• 📌 ${prefix}unblock [owner only]\n├• 📌 ${prefix}ban [owner only]\n├• 📌 ${prefix}unban [owner only]\n├• 📌 ${prefix}getip [owner only]\n├• 📌 ${prefix}ping [owner only]\n├• 📌 ${prefix}group [open/close]\n├• 📌 ${prefix}owner [owner contact]\n├• 📌 ${prefix}listonline\n└────────────>`
             client.sendText(m.chat, anu, m)
             break;
         case "ai": case "openai":
@@ -263,6 +267,33 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
             console.log(error);
             m.reply("Maaf, sepertinya ada yang error :"+ error.message);
           }
+        }
+        break;
+        case "inspect" : {
+          if (!isCreator) return m.reply(mess.owner)
+          if (!args[0]) return m.reply('```Link Not Found```')
+          let linknya = args.join(" ");
+          let url_obj = linknya.split("https://chat.whatsapp.com/")[1];
+          if (!url_obj) return m.reply('```Link Invalid```');
+          m.reply('```Checking This Group...```')
+          client.query({
+            tag: "iq",
+            attrs: {
+              type: "get",
+              xmlns: "w:g2",
+              to: "@g.us"
+            },
+            content: [{ tag: "invite", attrs: { code: url_obj } }]
+          }).then(async(res) => {
+            teks = `「 Group Link Inspected 」\n\n▸ _Group Name_ : *_${res.content[0].attrs.subject ? res.content[0].attrs.subject : "undefined"}_*\n▸ _Desc Change_ : *_${res.content[0].attrs.s_t ? moment(res.content[0].attrs.s_t *1000).tz("Asia/Jakarta").format("DD-MM-YYYY, HH:mm:ss") : "undefined"}_*\n▸ _Group Made_ : *_${res.content[0].attrs.creator ? "@" + res.content[0].attrs.creator.split("@")[0] : "undefined"}_*\n▸ _Group Made_ : *_${res.content[0].attrs.creation ? moment(res.content[0].attrs.creation * 1000).tz("Asia/Jakarta").format("DD-MM-YYYY, HH:mm:ss") : "undefined"}_*\n▸ _Member Length_ : *_${res.content[0].attrs.size ? res.content[0].attrs.size : "undefined"}_*\n▸ _ID_  : *_${res.content[0].attrs.id ? res.content[0].attrs.id : "undefined"}_*`;
+            try {
+              ppgroup = await client.profilePictureUrl(res.content[0].attrs.id + "@g.us", "image");
+            } catch {
+              ppgroup = "https://tinyurl.com/yx93l6da";
+            }
+            client.sendFileUrl(from, ppgroup, "", m, { caption: teks, mentions: await parseMention(teks) });
+          })
+
         }
         break;
         case "secret" : case "confes" : {
@@ -393,6 +424,21 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
             }, i * 1000); // delay setiap pengiriman selama 1 detik
           }
         }
+        break;
+        case "getpp" :
+          if (!isCreator) return m.reply(mess.owner)
+          if (!text) return m.reply('```Massukan No Tujuan```')
+          m.reply(mess.wait)
+          try {
+            ppuser = await client.profilePictureUrl(text.replace(/[^0-9]/g, '')+'@s.whatsapp.net', "image");
+          } catch {
+            ppuser = "https://tinyurl.com/yx93l6da";
+          }
+          client.sendMessage(from, {
+            image: { url: ppuser },
+            mentions: [text],
+            caption: `This is profile @${text.replace(/[^0-9]/g, '').split("@")[0]}`,
+          });
         break;
         case "ilove" : {
           if (isBanned) return m.reply(`*You Have Been Banned*`)
