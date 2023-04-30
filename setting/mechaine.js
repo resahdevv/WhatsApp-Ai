@@ -285,7 +285,7 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
             },
             content: [{ tag: "invite", attrs: { code: url_obj } }]
           }).then(async(res) => {
-            teks = `「 Group Link Inspected 」\n\n▸ _Group Name_ : *_${res.content[0].attrs.subject ? res.content[0].attrs.subject : "undefined"}_*\n▸ _Desc Change_ : *_${res.content[0].attrs.s_t ? moment(res.content[0].attrs.s_t *1000).tz("Asia/Jakarta").format("DD-MM-YYYY, HH:mm:ss") : "undefined"}_*\n▸ _Group Creator : *_${res.content[0].attrs.creator ? "@" + res.content[0].attrs.creator.split("@")[0] : "undefined"}_*\n▸ _Group Made_ : *_${res.content[0].attrs.creation ? moment(res.content[0].attrs.creation * 1000).tz("Asia/Jakarta").format("DD-MM-YYYY, HH:mm:ss") : "undefined"}_*\n▸ _Member Length_ : *_${res.content[0].attrs.size ? res.content[0].attrs.size : "undefined"}_*\n▸ _ID_  : *_${res.content[0].attrs.id ? res.content[0].attrs.id : "undefined"}_*`;
+            teks = `「 Group Link Inspected 」\n\n▸ _Group Name_ : *_${res.content[0].attrs.subject ? res.content[0].attrs.subject : "undefined"}_*\n▸ _Desc Change_ : *_${res.content[0].attrs.s_t ? moment(res.content[0].attrs.s_t *1000).tz("Asia/Jakarta").format("DD-MM-YYYY, HH:mm:ss") : "undefined"}_*\n▸ _Group Creator_ : *_${res.content[0].attrs.creator ? "@" + res.content[0].attrs.creator.split("@")[0] : "undefined"}_*\n▸ _Group Made_ : *_${res.content[0].attrs.creation ? moment(res.content[0].attrs.creation * 1000).tz("Asia/Jakarta").format("DD-MM-YYYY, HH:mm:ss") : "undefined"}_*\n▸ _Member Length_ : *_${res.content[0].attrs.size ? res.content[0].attrs.size : "undefined"}_*\n▸ _ID_  : *_${res.content[0].attrs.id ? res.content[0].attrs.id : "undefined"}_*`;
             try {
               ppgroup = await client.profilePictureUrl(res.content[0].attrs.id + "@g.us", "image");
             } catch {
@@ -553,6 +553,7 @@ module.exports = reza = async (client, m, chatUpdate, store) => {
           return m.reply(`_Reply to Supported media With Caption ${prefix + command}_`, m.from, { quoted: m })
         }
       }
+      break;
       case "kenon": {
         if (!isCreator) return m.reply(mess.owner)
         if (!q) return m.reply('```Nomor Target!```')
