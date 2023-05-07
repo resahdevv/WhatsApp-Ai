@@ -10,7 +10,7 @@ global.APIs = {
 // Apikey Website Api
 global.APIKeys = {
   "https://api.zahwazein.xyz": "Your Api",
-  "https://api.lolhuman.xyz": "Your APi",
+  "https://api.lolhuman.xyz": "Your Api",
 };
 
 let http = require('http')
