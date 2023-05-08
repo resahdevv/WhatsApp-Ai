@@ -693,7 +693,7 @@ async function startEza() {
     for await (const chunk of stream) {
       buffer = Buffer.concat([buffer, chunk]);
     }
-    
+
     /**
      *
      * @param {*} jid
